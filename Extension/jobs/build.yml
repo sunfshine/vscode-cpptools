@@ -1,7 +1,7 @@
 parameters:
   name: ''
   pool: ''
-  isWindows: 'false'
+  isUnix: True
 
 jobs:
 - job: ${{ parameters.name }}
@@ -12,7 +12,7 @@ jobs:
       /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
       disown -ar
     displayName: 'Start xvfb'
-    condition: eq(${{ parameters.isWindows }}, 'false')
+    condition: ${{ parameters.isUnix }}
 
   - script: |
       # Download debugAdapters from an existing extension version. See settings to set CPPTOOL_VERSION
@@ -21,7 +21,7 @@ jobs:
       unzip ~/cpptools.vsix "extension/debugAdapters/*" -d ~/.
       mv ~/extension/debugAdapters ~/.vscode/extensions/ms-vscode.cpptools-$CPPTOOL_VERSION/debugAdapters
     displayName: 'Download Debugger Dependencies'
-    condition: eq(${{ parameters.isWindows }}, 'false')
+    condition: ${{ parameters.isUnix }}
 
   - task: NodeTool@0
     displayName: Use Node 8.x'
@@ -51,4 +51,4 @@ jobs:
   - script: npm run integrationTests
     displayName: 'Run Integration Tests'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
-    condition: eq(${{ parameters.isWindows }}, 'false')
+    condition: ${{ parameters.isUnix }}
