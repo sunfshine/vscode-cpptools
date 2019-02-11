@@ -1,12 +1,28 @@
 parameters:
   name: ''
   pool: ''
-  sign: false
+  isWindows: 'false'
 
 jobs:
 - job: ${{ parameters.name }}
   pool: ${{ parameters.pool }}
   steps:
+  - script: |
+      set -e
+      /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
+      disown -ar
+    displayName: 'Start xvfb'
+    condition: eq(${{ parameters.isLinux }}, 'false')
+
+  - script: |
+      # Download debugAdapters from an existing extension version. See settings to set CPPTOOL_VERSION
+      mkdir -p ~/.vscode/extensions/ms-vscode.cpptools-$CPPTOOL_VERSION
+      wget https://github.com/Microsoft/vscode-cpptools/releases/download/$CPPTOOL_VERSION/cpptools.vsix -O ~/cpptools.vsix
+      unzip ~/cpptools.vsix "extension/debugAdapters/*" -d ~/.
+      mv ~/extension/debugAdapters ~/.vscode/extensions/ms-vscode.cpptools-$CPPTOOL_VERSION/debugAdapters
+    displayName: 'Download Debugger Dependencies'
+    condition: eq(${{ parameters.isLinux }}, 'false')
+
   - task: NodeTool@0
     displayName: Use Node 8.x'
     inputs:
@@ -14,20 +30,25 @@ jobs:
 
   - script: npm install
     displayName: "Install Dependencies"
-    workingDirectory: 'Extension'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
       
   - script: npm run compile
     displayName: "Compile Sources"
-    workingDirectory: 'Extension'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
 
   - script: npm run pr-check
     displayName: 'Validate Extension/package.json'
-    workingDirectory: 'Extension'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
 
   - script: npm run tslint
     displayName: 'Run Linter'
-    workingDirectory: 'Extension'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
 
   - script: npm run unitTests
     displayName: 'Run Unit Tests'
-    workingDirectory: 'Extension'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
+
+  - script: npm run integrationTests
+    displayName: 'Run Integration Tests'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
+    condition: eq(${{ parameters.isLinux }}, 'false')
