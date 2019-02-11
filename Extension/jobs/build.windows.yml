@@ -2,13 +2,12 @@ parameters:
   name: ''
   pool: ''
 
-variables:
-  CPPTOOL_VERSION: v0.14.6-insiders
-  CPPTOOLS_DEV: 1
-
 jobs:
 - job: ${{ parameters.name }}
   pool: ${{ parameters.pool }}
+  variables:
+    CPPTOOL_VERSION: v0.14.6-insiders
+    CPPTOOLS_DEV: 1
   steps:
   - powershell: |
       # Download debugAdapters from an existing extension version. See settings to set CPPTOOL_VERSION
