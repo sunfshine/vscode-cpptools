@@ -41,6 +41,10 @@ jobs:
     displayName: 'Validate Extension/package.json'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
 
+  - script: npm run vscode:prepublish
+    displayName: 'Copy Debugger Dependencies'
+    workingDirectory: '$(Build.SourcesDirectory)/Extension'
+
   - script: npm run tslint
     displayName: 'Run Linter'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
