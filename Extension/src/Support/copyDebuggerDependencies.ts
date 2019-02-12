@@ -76,11 +76,6 @@ function findCppToolsExtensionDebugAdapterFolder(): string {
 }
 
 function enableDevWorkflow(): Boolean {
-    if (process.env.AGENT_ID) {
-        //Agent machines must not attempt any dev workflows
-        return false;
-    }
-
     return (EnableDevWorkflow || (process.env.CPPTOOLS_DEV !== undefined));
 }
 
