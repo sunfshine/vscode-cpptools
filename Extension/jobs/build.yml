@@ -44,6 +44,8 @@ jobs:
   - script: npm run vscode:prepublish
     displayName: 'Copy Debugger Dependencies'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
+    env:
+      CPPTOOLS_DEV: 1
 
   - script: npm run tslint
     displayName: 'Run Linter'
