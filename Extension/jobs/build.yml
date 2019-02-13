@@ -8,14 +8,8 @@ jobs:
   variables:
     CPPTOOL_VERSION: v0.14.6-insiders
     CPPTOOLS_DEV: 1
-    DISPLAY: ':10.0'
-  steps:
-  - script: |
-      set -e
-      /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
-      disown -ar
-    displayName: 'Start xvfb'
 
+  steps:
   - script: |
       # Download debugAdapters from an existing extension version. See settings to set CPPTOOL_VERSION
       mkdir -p ~/.vscode/extensions/ms-vscode.cpptools-$CPPTOOL_VERSION
@@ -51,10 +45,20 @@ jobs:
     displayName: 'Run Linter'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
 
+  - script: |
+      set -e
+      /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
+      disown -ar
+    displayName: 'Start xvfb'
+
   - script: npm run unitTests
     displayName: 'Run Unit Tests'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
+    env:
+      DISPLAY: :10
 
   - script: npm run integrationTests
     displayName: 'Run Integration Tests'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
+    env:
+      DISPLAY: :10
