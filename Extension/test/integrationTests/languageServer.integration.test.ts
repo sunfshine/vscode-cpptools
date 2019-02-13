@@ -187,7 +187,7 @@ suite("extensibility tests v2", function(): void {
                     resolve();
                 }
             }));
-            setTimeout(() => { reject(new Error("timeout")); }, 2500);
+            setTimeout(() => { reject(new Error("timeout")); }, 5000);
         });
         disposables.push(testHook);
 
@@ -262,7 +262,7 @@ suite("extensibility tests v1", function(): void {
                     resolve();
                 }
             }));
-            setTimeout(() => { reject(new Error("timeout")); }, 2500);
+            setTimeout(() => { reject(new Error("timeout")); }, 5000);
         });
         disposables.push(testHook);
 
