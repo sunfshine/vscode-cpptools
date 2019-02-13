@@ -14,7 +14,7 @@ suite(`Debug Integration Test: `, function(): void {
         }
     }); 
  
-    test("Starting (gdb) Launch from the workspace root should create an Active Debug Session", async () => { 
+    test("Starting (gdb) Launch from the workspace root should create an Active Debug Session", async function() { 
         await vscode.debug.startDebugging(vscode.workspace.workspaceFolders[0], "(gdb) Launch");
 
         let debugSessionTerminated: Promise<void> = new Promise(resolve => {
