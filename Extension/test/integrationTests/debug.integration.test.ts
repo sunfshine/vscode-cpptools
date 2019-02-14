@@ -46,7 +46,9 @@ suite(`Debug Integration Test: `, function(): void {
         }
     });
  
-    test("Starting (gdb) Launch from the workspace root should create an Active Debug Session", async function() { 
+    test("Starting (gdb) Launch from the workspace root should create an Active Debug Session", async function(done) { 
+        let succeeded: boolean = false;
+
         await vscode.debug.startDebugging(vscode.workspace.workspaceFolders[0], "(gdb) Launch");
 
         let debugSessionTerminated: Promise<void> = new Promise(resolve => {
@@ -55,10 +57,13 @@ suite(`Debug Integration Test: `, function(): void {
 
         try {
             assert.equal(vscode.debug.activeDebugSession.type, "cppdbg");
+            succeeded = true;
         } catch (e) {
             assert.fail("Debugger failed to launch. Did the extension activate correctly?");
         }
 
         await debugSessionTerminated;
+
+        done(succeeded ? null : 1);
     });
 }); 
