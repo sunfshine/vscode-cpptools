@@ -1387,7 +1387,7 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.43",
+    "@types/mocha": "^5.2.6",
     "@types/node": "^8.0.46",
     "async-child-process": "^1.1.1",
     "child-process": "^1.0.2",
@@ -1395,7 +1395,7 @@
     "gulp-env": "0.4.0",
     "gulp-mocha": "5.0.0",
     "gulp-tslint": "8.1.2",
-    "mocha": "^4.0.1",
+    "mocha": "^5.2.0",
     "tslint": "5.8.0",
     "tslint-microsoft-contrib": "5.0.1",
     "tslint-no-unused-expression-chai": "0.0.3",

@@ -29,7 +29,7 @@ testRunner.configure({
 	ui: 'tdd', 		// the TDD UI is being used in *.test.ts (suite, test, etc.)
     useColors: true, // colored output from test results
     fullTrace: true,
-    timeout: 60000
+    timeout: 600000
 });
 
 const logFolder = path.join( __dirname, ".logs")

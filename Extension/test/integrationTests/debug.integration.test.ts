@@ -33,6 +33,8 @@ suite(`Debug Integration Test: `, function(): void {
 
             fs.renameSync(origFactoryFile, tempFactoryFile);
             fs.copyFileSync(hijackedFactoryFile, origFactoryFile);  
+
+            console.log("Does Hijacked File Exist? " + fs.existsSync(hijackedFactoryFile));
         }
     });
 
