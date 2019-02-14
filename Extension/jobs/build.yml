@@ -6,18 +6,10 @@ jobs:
 - job: ${{ parameters.name }}
   pool: ${{ parameters.pool }}
   variables:
-    CPPTOOL_VERSION: v0.14.6-insiders
     CPPTOOLS_DEV: 1
+    MOCK_DEBUG: 1
 
   steps:
-  - script: |
-      # Download debugAdapters from an existing extension version. See settings to set CPPTOOL_VERSION
-      mkdir -p ~/.vscode/extensions/ms-vscode.cpptools-$CPPTOOL_VERSION
-      wget https://github.com/Microsoft/vscode-cpptools/releases/download/$CPPTOOL_VERSION/cpptools.vsix -O ~/cpptools.vsix
-      unzip ~/cpptools.vsix "extension/debugAdapters/*" -d ~/.
-      mv ~/extension/debugAdapters ~/.vscode/extensions/ms-vscode.cpptools-$CPPTOOL_VERSION/debugAdapters
-    displayName: 'Download Debugger Dependencies'
-
   - task: NodeTool@0
     displayName: Use Node 8.x'
     inputs:
@@ -34,12 +26,6 @@ jobs:
   - script: npm run pr-check
     displayName: 'Validate Extension/package.json'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
-
-  - script: npm run vscode:prepublish
-    displayName: 'Copy Debugger Dependencies'
-    workingDirectory: '$(Build.SourcesDirectory)/Extension'
-    env:
-      CPPTOOLS_DEV: 1
 
   - script: npm run tslint
     displayName: 'Run Linter'

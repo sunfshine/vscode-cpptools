@@ -1413,8 +1413,8 @@
     "mkdirp": "~0.5.1",
     "tmp": "~0.0.33",
     "vscode-cpptools": "2.1.1",
-    "vscode-debugadapter": "~1.24.0",
-    "vscode-debugprotocol": "~1.24.0",
+    "vscode-debugadapter": "~1.33.0",
+    "vscode-debugprotocol": "~1.33.0",
     "vscode-extension-telemetry": "~0.1.0",
     "vscode-languageclient": "5.1.1",
     "yauzl": "~2.10.0"
