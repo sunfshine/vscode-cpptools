@@ -7,7 +7,6 @@ jobs:
   pool: ${{ parameters.pool }}
   variables:
     CPPTOOLS_DEV: 1
-    MOCK_DEBUG: 1
 
   steps:
   - task: NodeTool@0
@@ -48,3 +47,4 @@ jobs:
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
     env:
       DISPLAY: :10
+      MOCK_DEBUG: 1
