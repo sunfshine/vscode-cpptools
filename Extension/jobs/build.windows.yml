@@ -6,17 +6,9 @@ jobs:
 - job: ${{ parameters.name }}
   pool: ${{ parameters.pool }}
   variables:
-    CPPTOOL_VERSION: v0.14.6-insiders
     CPPTOOLS_DEV: 1
-  steps:
-  - powershell: |
-      # Download debugAdapters from an existing extension version. See settings to set CPPTOOL_VERSION
-      mkdir -p %UserProfile%\.vscode\extensions\ms-vscode.cpptools-$CPPTOOL_VERSION
-      Invoke-WebRequest -Uri https://github.com/Microsoft/vscode-cpptools/releases/download/$CPPTOOL_VERSION/cpptools.vsix -OutFile %UserProfile%\cpptools.vsix
-      Expand-Archive %UserProfile%\cpptools.vsix -DestinationPath %UserProfile%\cpptools
-      Move-Item %UserProfile%\extension\debugAdapters %UserProfile%\.vscode\extensions\ms-vscode.cpptools-$CPPTOOL_VERSION\debugAdapters
-    displayName: 'Download Debugger Dependencies'
 
+  steps:
   - task: NodeTool@0
     displayName: Use Node 8.x'
     inputs:
@@ -45,3 +37,5 @@ jobs:
   - script: npm run integrationTests
     displayName: 'Run Integration Tests'
     workingDirectory: '$(Build.SourcesDirectory)/Extension'
+    env:
+      MOCK_DEBUG: 1

@@ -21,9 +21,12 @@ suite(`Debug Integration Test: `, function(): void {
             await extension.activate(); 
         }
 
+        console.log(extension.extensionPath);
+
         // The following block below is to hijack the debug adapter for the debug F5 scenario. 
         if (process.env.MOCK_DEBUG)
         {
+            console.log("MOCK_DEBUG ENABLED");
             origFactoryFile = path.join(util.extensionContext.extensionPath, "./out/src/Debugger/debugAdapterDescriptorFactory.js");
             tempFactoryFile = origFactoryFile + ".tmp";
             hijackedFactoryFile = path.join(util.extensionContext.extensionPath, "./out/test/integrationTests/MockDebugger/debugAdapterDescriptorFactory.js");
